@@ -28,8 +28,8 @@ pub enum Cell {
 #[wasm_bindgen]
 #[derive(Clone, Debug, PartialEq)]
 pub struct World {
-    height: usize,
-    width: usize,
+    pub height: usize,
+    pub width: usize,
     cells: Vec<Cell>,
 }
 
