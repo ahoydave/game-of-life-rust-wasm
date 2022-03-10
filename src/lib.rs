@@ -18,6 +18,7 @@ pub fn greet(s: &str) {
     alert(&format!("Hello, {}", s));
 }
 
+#[wasm_bindgen]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Cell {
     Dead = 0,
