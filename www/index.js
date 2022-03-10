@@ -5,6 +5,7 @@ const CELL_SIZE = 5;
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
 const WORLD_SIZE = 200;
+const TICKS_PER_SECOND = 10;
 
 let w = World.new_random(WORLD_SIZE, WORLD_SIZE);
 
@@ -36,6 +37,12 @@ let draw_game = () => {
 };
 
 setInterval(() => {
-    draw_game();
     w.tick();
-}, 100);
+}, 1000/TICKS_PER_SECOND);
+
+let renderLoop = () => {
+    draw_game();
+    requestAnimationFrame(renderLoop);
+};
+
+requestAnimationFrame(renderLoop);
