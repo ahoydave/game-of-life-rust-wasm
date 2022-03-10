@@ -1,11 +1,14 @@
-import { World, Cell } from "rust-wasm-tut";
+import { World, Cell, init, make_panic } from "rust-wasm-tut";
 import { memory } from "rust-wasm-tut/rust_wasm_tut_bg";
+
+init();
+//make_panic();
 
 const CELL_SIZE = 5;
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
 const WORLD_SIZE = 200;
-const TICKS_PER_SECOND = 10;
+const TICKS_PER_SECOND = 50;
 
 let w = World.new_random(WORLD_SIZE, WORLD_SIZE);
 
@@ -40,7 +43,15 @@ setInterval(() => {
     w.tick();
 }, 1000/TICKS_PER_SECOND);
 
-let renderLoop = () => {
+let last_frame_timestamp = performance.now();
+const fps_element = document.getElementById("fps");
+
+const renderLoop = () => {
+    const now = performance.now();
+    const delta = now - last_frame_timestamp;
+    last_frame_timestamp = now;
+    fps_element.textContent = `FPS: ${Math.round(1000/delta)}`.trim();
+
     draw_game();
     requestAnimationFrame(renderLoop);
 };

@@ -9,13 +9,13 @@ use wasm_bindgen::prelude::*;
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
-extern "C" {
-    fn alert(s: &str);
+pub fn init() {
+    utils::set_panic_hook();
 }
 
 #[wasm_bindgen]
-pub fn greet(s: &str) {
-    alert(&format!("Hello, {}", s));
+pub fn make_panic() {
+    panic!("shit");
 }
 
 #[wasm_bindgen]
