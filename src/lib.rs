@@ -124,6 +124,10 @@ impl World {
     pub fn render(&self) -> String {
         self.to_string()
     }
+
+    pub fn get_cells_ptr(&self) -> *const Cell {
+        self.cells.as_ptr()
+    }
 }
 
 #[cfg(test)]
