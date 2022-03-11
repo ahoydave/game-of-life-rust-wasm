@@ -13,7 +13,7 @@ void main() {
     float clip_y = float(world_y) / float(u_width) * 2.0 - 1.0;
 
     gl_Position = vec4(clip_x, clip_y, 0, 1);
-    gl_PointSize = 4.0;
+    gl_PointSize = 5.0;
     if (a_alive > 0.0) {
         v_colour = vec4(0, 0, 0, 1);
     } else {
@@ -82,15 +82,10 @@ export class Renderer {
 
         this.widthUniformLocation = gl.getUniformLocation(this.program, "u_width");
         this.positionAttributeLocation = gl.getAttribLocation(this.program, "a_alive");
-    }
 
-    render(cells) {
-        var gl = this.gl;
-        
         var positionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, cells, gl.STATIC_DRAW);
-    
+        
         var vao = gl.createVertexArray();
         gl.bindVertexArray(vao);
         gl.enableVertexAttribArray(this.positionAttributeLocation);
@@ -107,11 +102,7 @@ export class Renderer {
     
         // Tell WebGL how to convert from clip space to pixels
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    
-        // Clear the canvas
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-    
+
         // Tell it to use our program (pair of shaders)
         gl.useProgram(this.program);
     
@@ -119,6 +110,16 @@ export class Renderer {
         gl.bindVertexArray(vao);
     
         gl.uniform1i(this.widthUniformLocation, this.world_width);
+    }
+
+    render(cells) {
+        var gl = this.gl;
+
+        gl.bufferData(gl.ARRAY_BUFFER, cells, gl.STATIC_DRAW);
+    
+        // Clear the canvas
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
     
         // draw
         var primitiveType = gl.POINTS;
