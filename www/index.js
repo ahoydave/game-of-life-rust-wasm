@@ -27,10 +27,11 @@ canvas.height = w.height * CELL_SIZE;
 // };
 
 const ctx = canvas.getContext("webgl2");
+let renderer = new gl.Renderer(ctx, w.height, w.width);
 let draw_game = () => {
     const cells_ptr = w.get_cells_ptr();
     const cells = new Uint8Array(memory.buffer, cells_ptr, w.width * w.height);
-    gl.render(ctx, cells, w.width);
+    renderer.render(cells);
 };
 
 const tick_time_element = document.getElementById("tick_time");
