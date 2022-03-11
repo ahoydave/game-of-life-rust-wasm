@@ -1,13 +1,14 @@
 import * as wasm from "rust-wasm-tut";
 import { memory } from "rust-wasm-tut/rust_wasm_tut_bg";
 import { Renderer } from "./render.js";
+import * as gl from "./gl_render.js";
 
 wasm.init();
 //make_panic();
 
 const CELL_SIZE = 5;
-const WORLD_SIZE = 300;
-const TICKS_PER_FRAME = 10;
+const WORLD_SIZE = 500;
+const TICKS_PER_FRAME = 1;
 
 const w = wasm.World.new_random(WORLD_SIZE, WORLD_SIZE);
 const cells_ptr = w.get_cells_ptr();
@@ -16,14 +17,20 @@ const cells = new Uint8Array(memory.buffer, cells_ptr, w.width * w.height);
 const canvas = document.getElementById("game-of-life-canvas");
 canvas.width = w.width * CELL_SIZE;
 canvas.height = w.height * CELL_SIZE;
-const ctx = canvas.getContext("2d");
 
-const renderer = new Renderer(ctx, w.width, w.height, CELL_SIZE);
+// const ctx = canvas.getContext("2d");
+// const renderer = new Renderer(ctx, w.width, w.height, CELL_SIZE);
+// let draw_game = () => {
+//     const cells_ptr = w.get_cells_ptr();
+//     const cells = new Uint8Array(memory.buffer, cells_ptr, w.width * w.height);
+//     renderer.render(cells);
+// };
 
+const ctx = canvas.getContext("webgl2");
 let draw_game = () => {
     const cells_ptr = w.get_cells_ptr();
     const cells = new Uint8Array(memory.buffer, cells_ptr, w.width * w.height);
-    renderer.render(cells);
+    gl.render(ctx, cells, w.width);
 };
 
 const tick_time_element = document.getElementById("tick_time");
