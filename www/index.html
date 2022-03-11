@@ -5,17 +5,34 @@
     <title>Game of Life!</title>
 
     <style>
+      .debug_panel {
+        background-color: #ffffffe1;
+        padding: 10px;
+      }
+
       canvas {
         width: 100%;
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: -1;
       }
     </style>
   </head>
   <body>
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
+    <div class="debug_panel">
     <pre id="game-of-life-debug"></pre>
     <div id="fps"></div>
     <div id="tick_time"></div>
+    <div id="generation_count"></div>
+    <div>
+      <label>Ticks per frame</label>
+      <input type="text" id="ticks_per_frame_input"/>
+    </div>
     <button id="play_button">Play</button>
+  </div>
     <canvas id="game-of-life-canvas"></canvas>
     <script src="./bootstrap.js"></script>
   </body>
